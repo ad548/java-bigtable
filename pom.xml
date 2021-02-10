@@ -313,21 +313,79 @@
                     <name>docFX</name>
                 </property>
             </activation>
-            <reporting>
+            <build>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <version>3.2.0</version>
-                    <configuration>
-                        <links>
-                            <link>https://googleapis.dev/java/gax/${gax.version}/</link>
-                            <link>https://googleapis.github.io/api-common-java/${google.api-common.version}/apidocs/</link>
-                        </links>
-                    </configuration>
+                        <executions>
+                            <execution>
+                                <id>aggregate</id>
+                                <inherited>false</inherited>
+                                <phase>site</phase>
+                                <goals>
+                                    <goal>aggregate</goal>
+                                </goals>
+                                <configuration>
+                                    <sourceFileExcludes combine.children="append">
+                                        <!-- Exclude protobuf & grpc stubs from the public javadocs site. -->
+                                        <sourceFileExclude>**/com/google/bigtable/**</sourceFileExclude>
+                                    </sourceFileExcludes>
+                                </configuration>
+                            </execution>
+                        </executions>
+
+                        <configuration>
+                            <doclint>none</doclint>
+                            <show>protected</show>
+                            <nohelp>true</nohelp>
+
+                            <sourceFileExcludes>
+                                <!-- Hide InternalApi & non public classes from javadocs site and the javadoc jars -->
+                                <!-- TODO(igorbernstein): use a custom doclet to exclude @InternalApi classes from javadoc -->
+                                <!-- Hide @InternalApi classes -->
+                                <sourceFileExclude>**/com/google/cloud/bigtable/gaxx/**</sourceFileExclude>
+
+                                <!-- Hide @InternalApi classes for InstanceAdmin -->
+                                <sourceFileExclude>**/com/google/cloud/bigtable/admin/v2/internal/**</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/admin/v2/BaseBigtableInstanceAdminClient.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/admin/v2/BaseBigtableInstanceAdminSettings.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/admin/v2/stub/GrpcBigtableInstanceAdminCallableFactory.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/admin/v2/stub/GrpcBigtableInstanceAdminStub.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/admin/v2/stub/BigtableInstanceAdminStub.java</sourceFileExclude>
+
+                                <!-- Hide**/ @InternalApi classes for TableAdmin -->
+                                <sourceFileExclude>**/com/google/cloud/bigtable/admin/v2/BaseBigtableTableAdminClient.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/admin/v2/BaseBigtableTableAdminSettings.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/admin/v2/stub/GrpcBigtableTableAdminCallableFactory.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/admin/v2/stub/GrpcBigtableTableAdminStub.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/admin/v2/stub/BigtableTableAdminStub.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/admin/v2/stub/EnhancedBigtableTableAdminStub.java</sourceFileExclude>
+
+                                <!-- Hide**/ @InternalApi classes for Data -->
+                                <sourceFileExclude>**/com/google/cloud/bigtable/data/v2/internal/**</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/data/v2/BaseBigtableDataClient.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/data/v2/BaseBigtableDataSettings.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/data/v2/stub/BigtableStub.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/data/v2/stub/BigtableStubSettings.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/data/v2/stub/GrpcBigtableStub.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/data/v2/stub/GrpcBigtableCallableFactory.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/data/v2/stub/EnhancedBigtableStub.java</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/data/v2/stub/mutaterows/**</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/data/v2/stub/readrows/**</sourceFileExclude>
+                                <sourceFileExclude>**/com/google/cloud/bigtable/data/v2/stub/metrics/**</sourceFileExclude>
+                            </sourceFileExcludes>
+
+                            <!-- Enable external linking -->
+                            <links>
+                                <link>https://googleapis.dev/java/gax/${gax.version}/</link>
+                                <link>https://googleapis.github.io/api-common-java/${google.api-common.version}/apidocs/</link>
+                            </links>
+                        </configuration>
                     </plugin>
                 </plugins>
-            </reporting>
+            </build>
         </profile>
     </profiles>
 </project>
