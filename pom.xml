@@ -356,8 +356,8 @@
                                 <link>https://googleapis.github.io/common-protos-java/apidocs/</link>
                                 <link>https://googleapis.github.io/api-common-java/</link>
                                 <link>https://grpc.io/grpc-java/javadoc/</link>
-                                <link>https://googleapis.dev/java/gax/${gax.version}/</link>
-                                <link>https://googleapis.github.io/api-common-java/${google.api-common.version}/apidocs/</link>
+                                <link>https://googleapis.dev/java/gax/1.60.1/</link>
+                                <link>https://googleapis.github.io/api-common-java/1.10.1/apidocs/</link>
                             </links>
                         </configuration>
 
