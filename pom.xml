@@ -294,7 +294,6 @@
             </plugin>
         </plugins>
     </build>
-
     <modules>
         <module>proto-google-cloud-bigtable-v2</module>
         <module>grpc-google-cloud-bigtable-v2</module>
@@ -305,4 +304,30 @@
         <module>google-cloud-bigtable-bom</module>
         <module>google-cloud-bigtable-deps-bom</module>
     </modules>
+
+    <profiles>
+        <profile>
+            <id>docFX</id>
+            <activation>
+                <property>
+                    <name>docFX</name>
+                </property>
+            </activation>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.2.0</version>
+                    <configuration>
+                        <links>
+                            <link>https://googleapis.dev/java/gax/${gax.version}/</link>
+                            <link>https://googleapis.github.io/api-common-java/${google.api-common.version}/apidocs/</link>
+                        </links>
+                    </configuration>
+                    </plugin>
+                </plugins>
+            </reporting>
+        </profile>
+    </profiles>
 </project>
