@@ -307,7 +307,7 @@
 
     <profiles>
         <profile>
-            <id>docFX</id>
+            <id>docFX-bigtable</id>
             <activation>
                 <property>
                     <name>docFX</name>
